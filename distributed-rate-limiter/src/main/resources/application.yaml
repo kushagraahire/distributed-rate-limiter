@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: distributed-rate-limiter
+rate-limiter:
+  endpoints:
+    login:
+      limit: 5
+      window: 1000
+      burst: 2
+    otp:
+      limit: 2
+      window: 60000
+      burst: 1
