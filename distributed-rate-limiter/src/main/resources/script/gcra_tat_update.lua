@@ -10,14 +10,14 @@ local burst = tonumber(ARGV[3])
 
 local tat = tonumber(redis.call('GET', key))
 if tat == nil then
-    tat = 0
+    tat = now
 end
 
 local earliest_time = tat - burst
 
 if now >= earliest_time then
     local new_tat = math.max(tat, now) + interval
-    local ttl_ms = new_tat - now + burst
+    local ttl_ms = new_tat - now
     redis.call('SET', key, new_tat, 'PX', ttl_ms)
     return 1
 else

@@ -9,11 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-//@AllArgsConstructor
 public class GcraRateLimiter {
     private final RedisTemplate<String, Object> redisTemplate;
     private final RedisScript<Long> rateLimiterScript;
@@ -27,7 +24,7 @@ public class GcraRateLimiter {
         this.rateLimiterScript = script;
     }
 
-    public boolean allowRequest(String key, long limit, long window, int burstRequests){
+    public long allowRequest(String key, long limit, long window, int burstRequests){
         long interval = (window) / limit;
         long burst = burstRequests * interval;
 
@@ -40,6 +37,6 @@ public class GcraRateLimiter {
         };
 
         Long result = redisTemplate.execute(rateLimiterScript, keys, args);
-        return result != null && result >= 0;
+        return result;
     }
 }

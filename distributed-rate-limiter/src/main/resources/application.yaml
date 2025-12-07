@@ -9,8 +9,8 @@ rate-limiter:
   endpoints:
     login:
       limit: 5
-      window: 1000
-      burst: 2
+      window: 15000
+      burst: 0
     otp:
       limit: 2
       window: 60000
